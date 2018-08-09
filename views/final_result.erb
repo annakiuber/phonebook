@@ -1,0 +1,13 @@
+<%db_return.each do |item|%>
+<%= item %><br>
+	<!-- <%= item['first_name'] %><br> -->
+<% end %>
+
+<button onclick="goBack()">Go Back</button>
+
+<script>
+function goBack() {
+    window.history.back();
+}
+</script>
+</form>
