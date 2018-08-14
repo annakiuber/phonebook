@@ -1,0 +1,25 @@
+<h1>Here is the listing that you selected to revise:</h1>
+<%db_check.each do |item|%>
+	<%= item %><br>
+<% end %>
+
+<h1>Please make the changes to your phonebook listing:</h1>
+
+<form method="post" action="updates">
+    <input type="text" value="<%=db_check[0]%>" name="data[]" placeholder="FirstName" required>
+    <input type="text" value="<%=db_check[1]%>" name="data[]" placeholder="LastName" required><br>
+    <input type="text" value="<%=db_check[2]%>" name="data[]" placeholder="Street" required>
+    <input type="text" value="<%=db_check[3]%>" name="data[]" placeholder="City" required><br>
+    <input type="text" value="<%=db_check[4]%>" name="data[]" placeholder="State" required>
+    <input type="text" value="<%=db_check[5]%>" name="data[]" placeholder="Zip" minlength="5" maxlength="5" required><br>
+<br>(Continental US Numbers Only)</br>
+    <input type="text" value="<%=db_check[6]%>" name="data[]" placeholder="Phone" minlength="10" maxlength="10" required><br>
+<br><input type="text" value="<%=db_check[7]%>" name="data[]" placeholder="Email" required>
+<h3>Please select "Update" to make any updates to the existing entry in the phonebook:</h3>
+<input type="submit" value="Update">
+</form>
+
+<form method="post" action="deletes">
+<h3>Please select "Delete" to delete the existing entry from the phonebook:</h3>
+	<input type="submit" value="Delete">
+</form>

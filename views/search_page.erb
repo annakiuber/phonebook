@@ -1,0 +1,37 @@
+<%db_return.each do |item|%>
+    <%= item %><br>
+<% end %>
+<h1 class="text_s"> Here are the ones that came back with your terms.</h1>
+<div id = "box">
+<form method = "post" action = "update">
+<%unless search_msg == "Need search term" ||search_msg ==  "This data is not in phone book" %>
+    <table width = 100%>
+        <tr>
+            <th>Select</th>
+            <th>First</th>
+            <th>Last</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Zip</th>
+            <th>Phone</th>
+        </tr>
+        <%search_msg.each do |row|%>
+        <%woo = row.join(",")%>
+            <tr>
+            <td><input type = "checkbox" name = "info[]" value = "<%=woo%>"></td>
+                <%row.each do |item| %>
+                    <td><%=item%></td>
+                <%end%>
+            </tr>
+        <br>
+        <%end%>
+    </table>
+<%else%>
+<%=search_msg%>
+<%end%>
+<input type="radio" name="choose" value="update" checked> Update
+<input type="radio" name="choose" value="delete">Delete <br>
+<input type="submit" value="Next">
+</form>
+</div>

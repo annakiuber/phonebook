@@ -1,13 +1,10 @@
+<h1>Phonebook listings with the updated information:</h1>
+
 <%db_return.each do |item|%>
-<%= item %><br>
-	<!-- <%= item['first_name'] %><br> -->
+	<%= item %><br>
 <% end %>
 
-<button onclick="goBack()">Go Back</button>
-
-<script>
-function goBack() {
-    window.history.back();
-}
-</script>
+<form method="post" action='final_result'>
+<h3>Please select "Return" to input another entry:</h3>
+	<input type='submit' value="Return">
 </form>

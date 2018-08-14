@@ -1,23 +1,6 @@
 require 'pg'
     load './local_env.rb' if File.exist?('./local_env.rb')
 
-def login(data)
-  begin
-    db_info = {
-      host: ENV['RDS_HOST'],
-      port: ENV['RDS_PORT'],
-      dbname: ENV['RDS_DB_NAME'],
-      user: ENV['RDS_USERNAME'],
-      password: ENV['RDS_PASSWORD']
-      }
-    d_base = PG::Connection.new(db_info)
-    d_base.exec ("INSERT INTO public.phonebooklogin (username, password) VALUES('#{data[0]}','#{data[1]}');");
-    rescue PG::Error => e
-      puts e.message
-    ensure
-      d_base.close if d_base
-  end
-end
 
 def update_login(data)
   begin
@@ -94,7 +77,43 @@ def update_info(data)
   end
 end
 
-def select_info(data)
+def search_phone(phone)
+  begin
+    db_info = {
+      host: ENV['RDS_HOST'],
+      port: ENV['RDS_PORT'],
+      dbname: ENV['RDS_DB_NAME'],
+      user: ENV['RDS_USERNAME'],
+      password: ENV['RDS_PASSWORD']
+      }
+    d_base = PG::Connection.new(db_info)
+    d_base.exec ("SELECT * FROM public.annaphonebook WHERE phone_number='#{data[6]}'");
+    rescue PG::Error => e
+      puts e.message
+    ensure
+      d_base.close if d_base
+  end
+end
+
+def search_name(lname)
+  begin
+    db_info = {
+      host: ENV['RDS_HOST'],
+      port: ENV['RDS_PORT'],
+      dbname: ENV['RDS_DB_NAME'],
+      user: ENV['RDS_USERNAME'],
+      password: ENV['RDS_PASSWORD']
+      }
+    d_base = PG::Connection.new(db_info)
+    d_base.exec ("SELECT * FROM public.annaphonebook WHERE last_name='#{data[1]}'");
+    rescue PG::Error => e
+      puts e.message
+    ensure
+      d_base.close if d_base
+  end
+end
+
+def select_info()
   begin
     db_info = {
       host: ENV['RDS_HOST'],

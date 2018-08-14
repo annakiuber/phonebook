@@ -1,13 +1,15 @@
 <h2>Welcome to the Phonebook</h2>
 <h3>Please sign in if you have an existing account:</h3>
 <form method="post" action="sign_in">
- <input type="text"  id="username" name="username" autofocus required>
- <input type="password"  id="password" name="password" autofocus required>
+ <input type="text"  id="username" name="login_name" autofocus required>
+ <input type="password"  id="password" name="login_password" autofocus required>
  <input type="submit" value="Login">
 </form>
 <h3>Please create an account:</h3>
 <form method="post" action="create_user">
- <input type="text"  id="username" name="username" autofocus required>
- <input type="password"  id="password" name="password" autofocus required>
+ <input type="text"  id="username" name="login_name" autofocus required>
+ <input type="password"  id="password" name="login_password" autofocus required>
  <input type="submit" value="Create New Login">
 </form>
+
+<%=message%>
