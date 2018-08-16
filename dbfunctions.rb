@@ -58,7 +58,7 @@ def insert_info(data)
   end
 end
 
-def update_info(data)
+def update_info(data, olddata)
   begin
     db_info = {
       host: ENV['RDS_HOST'],
@@ -69,7 +69,7 @@ def update_info(data)
       }
     d_base = PG::Connection.new(db_info)
     d_base.exec ("UPDATE public.annaphonebook
-      SET first_name='#{data[0]}', last_name='#{data[1]}', street_address='#{data[2]}', city='#{data[3]}', state='#{data[4]}', zip_code='#{data[5]}', phone_number='#{data[6]}', email_address='#{data[7]}'");
+      SET first_name='#{data[0]}', last_name='#{data[1]}', street_address='#{data[2]}', city='#{data[3]}', state='#{data[4]}', zip_code='#{data[5]}', phone_number='#{data[6]}', email_address='#{data[7]}' WHERE last_name = '#{data[1]}' AND phone_number = '#{data[6]}' OR  email_address='#{data[7]}'");
     rescue PG::Error => e
       puts e.message
     ensure
