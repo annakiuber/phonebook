@@ -22,6 +22,7 @@ post '/create_user' do
   session[:login_password] = params[:login_password]
   p "this is sessionnew username #{session[:login_name]}"
   p "this is sessionnew password #{session[:login_password]}"
+
   db_info = {
     host: ENV['RDS_HOST'],
     port: ENV['RDS_PORT'],
@@ -51,8 +52,8 @@ post '/create_user' do
   get '/sign_in' do
     session[:login_name] = params[:login_name]
     session[:login_password] = params[:login_password]
-
-  erb :sign_in, locals:{login_password:session[:login_password], login_name:session[:login_name] }
+    message = params[:message] || ""
+  erb :sign_in, locals:{message: message, login_password:session[:login_password], login_name:session[:login_name] }
   end
 
 
@@ -113,7 +114,7 @@ puts "It's a match!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 # end
 
 get '/input_info' do
-  erb :input_info
+  erb :input_info, locals: {login_name: session[:login_name]}
 end
 
 post '/input_info' do
@@ -121,7 +122,7 @@ post '/input_info' do
   db_check = check_if_user_is_in_db(session[:data])
   if db_check.num_tuples.zero? == true
     puts "not in db"
-    insert_info(session[:data])
+    insert_info(session[:data],session[:login_name])
     redirect '/final_result'
   else
     puts "it is in the db, search for your listing"
@@ -131,7 +132,7 @@ end
 
 get '/updates' do
   db_check = check_if_user_is_in_db(session[:data]).values[0]
-  erb :updates, locals: { db_check: db_check}
+  erb :updates, locals: { db_check: db_check, login_name: session[:login_name]}
 end
 
 post '/updates' do
@@ -147,8 +148,8 @@ end
 
 
 get '/final_result' do
-  db_return = select_info()
-  erb :final_result, locals: {db_return: db_return}
+  db_return = select_info(session[:login_name])
+  erb :final_result, locals: {db_return: db_return, login_name: session[:login_name]}
 end
 
 post '/final_result' do

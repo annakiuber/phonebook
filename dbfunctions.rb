@@ -40,7 +40,7 @@ def delete_login(data)
   end
 end
 
-def insert_info(data)
+def insert_info(data, login_name)
   begin
     db_info = {
       host: ENV['RDS_HOST'],
@@ -50,7 +50,7 @@ def insert_info(data)
       password: ENV['RDS_PASSWORD']
       }
     d_base = PG::Connection.new(db_info)
-    d_base.exec ("INSERT INTO public.annaphonebook (first_name, last_name, street_address, city, state, zip_code, phone_number, email_address) VALUES('#{data[0]}','#{data[1]}','#{data[2]}','#{data[3]}','#{data[4]}','#{data[5]}','#{data[6]}', '#{data[7]}');");
+    d_base.exec ("INSERT INTO public.annaphonebook (first_name, last_name, street_address, city, state, zip_code, phone_number, email_address, login_name) VALUES('#{data[0]}','#{data[1]}','#{data[2]}','#{data[3]}','#{data[4]}','#{data[5]}','#{data[6]}', '#{data[7]}', '#{login_name}');");
     rescue PG::Error => e
       puts e.message
     ensure
@@ -113,7 +113,7 @@ def search_name(lname)
   end
 end
 
-def select_info()
+def select_info(login_name)
   begin
     db_info = {
       host: ENV['RDS_HOST'],
@@ -123,8 +123,8 @@ def select_info()
       password: ENV['RDS_PASSWORD']
       }
     d_base = PG::Connection.new(db_info)
-    d_base.exec ("SELECT first_name, last_name, street_address, city, state, zip_code, phone_number, email_address
-      FROM public.annaphonebook");
+    d_base.exec ("SELECT first_name, last_name, street_address, city, state, zip_code, phone_number, email_address, login_name
+      FROM public.annaphonebook WHERE login_name='#{login_name}'");
     rescue PG::Error => e
       puts e.message
     ensure
